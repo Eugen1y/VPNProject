@@ -3,3 +3,4 @@ venv/
 db.sqlite3
 static/__pycache__/
 website/__pycache__/
+__pycache__
