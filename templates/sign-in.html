@@ -1,0 +1,16 @@
+{% extends "static/base.html" %}
+
+{% block doctitle %}Sign-Up | {{ block.super }}{% endblock %}
+{% block content %}
+  <form autocomplete="off" method="post" class="row justify-content-center">
+    <div class="col-6">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <div class="mt-3">
+        <button type="submit" class="btn btn-primary">Sign In</button>
+        <a href="{% url "home" %}" class="btn btn-danger">Cancel</a>
+      </div>
+      <div class="mt-3">Already have an account? <a href="{% url "register" %}">Sing In</a></div>
+    </div>
+  </form>
+{% endblock %}

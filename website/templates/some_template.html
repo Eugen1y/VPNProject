@@ -1,0 +1,14 @@
+<!-- some_template.html -->
+
+<h1>{{ site_name }}</h1>
+<p>External URL: {{ external_url }}</p>
+
+{% if content %}
+    <div>
+        <h2>Content:</h2>
+        {{ content|safe }}
+    </div>
+{% else %}
+    <p>Failed to retrieve content for the site.</p>
+{% endif %}
+<!-- Додайте інші дані для статистики -->

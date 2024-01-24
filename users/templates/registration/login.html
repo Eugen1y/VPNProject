@@ -1,0 +1,22 @@
+{% extends "static/base.html" %}
+{% block content %}
+  <form class="row" method="post">
+
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <div class="justify-content-center">
+      <button type="submit" class="btn btn-primary">Login</button>
+      <a href="{% url "home" %}" class="btn btn-secondary">Cancel</a>
+    </div>
+
+  </form>
+
+    <div class="row">
+    <div class="col">
+      <p class="text">Don't have an account?
+        <a href="{% url "register" %}">Sign up</a>
+      </p>
+    </div>
+  </div>
+{% endblock %}

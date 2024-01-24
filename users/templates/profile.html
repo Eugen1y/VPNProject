@@ -1,0 +1,82 @@
+
+{% extends 'static/base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="text-center">User Profile</h2>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <strong>Username:</strong> {{ user.username }}
+                    </div>
+                    <div class="mb-3">
+                        <strong>User Description:</strong> {{ user.description }}
+                    </div>
+                    <!-- Додайте інші дані про користувача, якщо необхідно -->
+                </div>
+                <div class="card-footer text-right">
+                    <a href="{% url 'update-profile' %}" class="btn btn-primary">Редагувати</a>
+                </div>
+            </div>
+
+            <!-- Форма для створення сайту поруч із полями введення -->
+            <form id="createSiteForm" class="mt-3" data-url="{% url 'create_site' %}">
+    {% csrf_token %}
+    {{ create_site_form.as_p }}
+    <button type="button" class="btn btn-primary" onclick="createSite()">Додати сайт</button>
+</form>
+
+
+            <!-- Таблиця зі списком сайтів користувача -->
+            <table class="table mt-3 mx-auto">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>URL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for site in site_list %}
+                        <tr>
+                            <td>{{ site.name }}</td>
+                            <td><a href="/{{ site.name }}/{{ site.url }}/">{{ site.url }}</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+
+        </div>
+    </div>
+</div>
+<script>
+    function createSite() {
+        var formData = new FormData($('#createSiteForm')[0]);
+        var url = $('#createSiteForm').data('url');  // Отримати URL з атрибуту data-url
+
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                $('#createSiteModal').modal('hide');
+                // Перенаправлення на сторінку профілю користувача
+                window.location.href = '{% url "profile" pk=request.user.pk %}';
+            },
+            error: function (error) {
+                // Обробка помилок
+                console.log(error);
+            }
+        });
+    }
+</script>
+{% endblock %}
+
+
+
+
