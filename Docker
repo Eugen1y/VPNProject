@@ -1,0 +1,24 @@
+# Використовуємо офіційний базовий образ Python для Django
+FROM python:3.8-slim
+
+# Встановлюємо залежності
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    gcc
+
+# Створюємо та встановлюємо віртуальне середовище Python
+RUN python -m venv /venv
+ENV PATH="/venv/bin:$PATH"
+
+# Встановлюємо необхідні пакети Python
+COPY requirements.txt /app/
+RUN pip install --no-cache-dir -r /app/requirements.txt
+
+# Копіюємо файли проекту в контейнер
+COPY . /app/
+
+# Встановлюємо працюючий каталог
+WORKDIR /app
+
+# Запускаємо Django за допомогою Gunicorn
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "VpnProject.wsgi:application"]
